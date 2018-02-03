@@ -3,7 +3,7 @@ var inquirer = require("inquirer");
 var request = require("request");
 
 inquirer.prompt([{
-	message: "What topic do you want to play",
+	message: "Choose a topic to generate 10 random hangman words:",
 	name: "topic"
 }]).then(answers => {
 
@@ -31,19 +31,3 @@ function createGame(topic) {
 		game.playWord();
 	});
 }
-
-
-// game starts
-// new game instance is created with an array of words.
-// var game = new Game(['word','testing','neato']);
-
-// console.log(game.constructWord());
-
-// game.playWord();
-
-
-
-
-//the word has to be constucted
-
-// the word is displayed and the user is prompted to guess.
