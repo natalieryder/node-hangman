@@ -1,8 +1,12 @@
 const Letter = function(letter) {
 	this.letter = letter;
 	this.guessed = false;
-
+	if (letter === " "){
+		this.guessed = true;
+	}
 };
+
+
 
 Letter.prototype.toString = function() {
 	// if (this.guessed) {
@@ -25,6 +29,7 @@ Letter.prototype.checkLetter = function(guess) {
 	if (guess === this.letter) {
 		
 		this.guessed = true;
+		return true;
 	}
 }
 

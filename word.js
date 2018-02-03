@@ -1,30 +1,19 @@
 const Letter = require("./letter");
 
 const Word = function(wordToGuess) {
+
 	this.word = [];
+	this.solved = false;
+	this.guessesLeft = 15;
 	for (var i = 0; i < wordToGuess.length; i++) {
-		var newLetter = new Letter(wordToGuess[i]);
+		var newLetter = new Letter(wordToGuess[i].toUpperCase());
 		this.word.push(newLetter);
 	};
 
-	this.printWord = function() {
-		console.log(this.word);
-	},
-
-	this.showWord = function() {
+	this.theWord = function() {
 		var word = this.word;
-		// for (letter in word) {
-			// console.log(letter + "=" + word[letter].letter);
-			// console.log(word[letter]);
-
-			// get each word object and run the showLetter function
-			// console.log(word[letter] + " ")
-		// }
-		//create newline
-
 		//calls the toString function because it is being cast to a string
-		console.log(word.join(" "));
-		// console.log("\n");
+		return word.join(" ");
 	},
 
 	// hold all the letters that have been guessed
@@ -32,18 +21,27 @@ const Word = function(wordToGuess) {
 
 	this.guess = function(guess) {
 		// if the letter has been guessed, print message and return
+		var guess = guess.toUpperCase();
+		var correct = false;
+		// TODO
+		// check if it's a letter
+		// else return "that's not a letter
 		if (this.checkIfGuessed(guess, this.alreadyChecked)) {
-			console.log("guessed already");
-			return;
+			
+			return "guessed already \n";
 		}
 		//add the letter to the guessed array
 		this.alreadyChecked.push(guess);
 
 		for (letter in this.word) {
 
-			this.word[letter].checkLetter(guess);
+			if(this.word[letter].checkLetter(guess)) {
+				correct = true;
+			}
 			
-		}
+		};
+		this.guessesLeft--;
+		return correct;
 	};
 
 	this.checkIfGuessed = function(guess, alreadyChecked) {
@@ -54,24 +52,17 @@ const Word = function(wordToGuess) {
 
 }
 
-var word = new Word("wordtest");
+Word.prototype.isSolved = function() {
+	// reduce the words array, return true if all guessed values are true
 
-console.log("guess 'o'");
-word.guess("o");
-word.showWord();
-console.log("guess 'w'");
-word.guess("w");
-word.showWord();
-console.log("guess 't'");
-word.guess("t");
+	return this.word.reduce(function(accumulator,currentValue) {
+		if (!currentValue.guessed) {
+			return false;
+		}
+		return accumulator;
+	}, true);
+}
 
-word.showWord();
+module.exports = Word;
 
-console.log("guess 't'");
-word.guess("t");
-console.log("guess 'u'")
-word.guess("u");
 
-word.showWord();
-console.log("guess 'u'")
-word.guess("u");
